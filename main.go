@@ -8,6 +8,8 @@ import (
 	"os"
 )
 
+const PORT = ":8080"
+
 func main() {
 	serveDir := os.DirFS("./srv")
 	handler := func(res http.ResponseWriter, req *http.Request) {
@@ -24,5 +26,5 @@ func main() {
 		fmt.Fprint(res, string(file))
 	}
 	http.HandleFunc("GET /{file...}", handler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(PORT, nil))
 }
