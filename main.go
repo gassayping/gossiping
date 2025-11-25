@@ -2,28 +2,25 @@ package main
 
 import (
 	"fmt"
-	"io/fs"
 	"log"
 	"net/http"
-	"os"
 )
 
 const PORT = ":8080"
 
 func main() {
-	serveDir := os.DirFS("./srv")
 	handler := func(res http.ResponseWriter, req *http.Request) {
 		path := req.PathValue("file")
 		if path == "" {
 			path = "index.html"
 		}
-		file, err := fs.ReadFile(serveDir, path)
+		file, err := renderPage(path)
 		if err != nil {
 			res.WriteHeader(400)
 			fmt.Fprint(res, err)
 			return
 		}
-		fmt.Fprint(res, string(file))
+		fmt.Fprint(res, file)
 	}
 	http.HandleFunc("GET /{file...}", handler)
 	log.Fatal(http.ListenAndServe(PORT, nil))
