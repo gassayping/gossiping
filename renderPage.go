@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"io/fs"
 	"os"
 	"strings"
@@ -27,7 +26,6 @@ func renderPage(path string) (string, error) {
 		return "", err
 	}
 	b := new(strings.Builder)
-	fmt.Println(templ.Templates()[0].Name())
 	err = templ.ExecuteTemplate(b, "container.html", PageData{
 		Title: "Gassayping",
 		Body:  string(file),
